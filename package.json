@@ -1,6 +1,6 @@
 {
   "name": "dialtone-rails",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Stimulus controller and styles for Dialtone Rails, powered by intl-tel-input",
   "type": "module",
   "license": "MIT",
@@ -16,8 +16,15 @@
     ".": "./javascript/controller.js",
     "./styles": "./css/dialtone_rails.css"
   },
-  "files": ["javascript", "css", "README.md", "LICENSE"],
-  "sideEffects": ["**/*.css"],
+  "files": [
+    "javascript",
+    "css",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build:demo": "esbuild demo/application.js --bundle --outdir=demo/public/assets --loader:.webp=file --asset-names=[name]-[hash]"
   },

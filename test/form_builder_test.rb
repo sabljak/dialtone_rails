@@ -41,7 +41,7 @@ class FormBuilderTest < Minitest::Test
   def test_nested_fields_keep_rails_names_ids_and_labels
     html = @view.form_with(scope: :batch, url: "/contacts") do |form|
       form.fields_for(:contacts, nil, index: 2) do |contact|
-        contact.label(:phone_number) + contact.intl_tel_field(:phone_number)
+        contact.label(:phone_number) + contact.dialtone_field(:phone_number)
       end
     end
     document = Nokogiri::HTML.fragment(html)
@@ -67,7 +67,7 @@ class FormBuilderTest < Minitest::Test
   private
     def render_field(**options)
       html = @view.form_with(scope: :contact, url: "/contacts") do |form|
-        form.intl_tel_field(:phone_number, **options)
+        form.dialtone_field(:phone_number, **options)
       end
       Nokogiri::HTML.fragment(html).at_css("input[type=tel]")
     end

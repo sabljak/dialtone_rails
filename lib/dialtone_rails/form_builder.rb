@@ -1,6 +1,6 @@
 module DialtoneRails
   module FormBuilder
-    def intl_tel_field(method, initial_country: "", class_names: {}, options: {}, **html_options)
+    def dialtone_field(method, initial_country: "", class_names: {}, options: {}, **html_options)
       classes = class_names.transform_keys { |key| key.to_s.camelize(:lower) }
       configuration = options.deep_transform_keys { |key| key.to_s.camelize(:lower) }
         .merge("initialCountry" => initial_country.to_s.downcase, "classNames" => classes)

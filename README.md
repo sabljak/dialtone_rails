@@ -6,7 +6,7 @@ for international phone fields with a country picker and number formatting.
 The Ruby gem is **`dialtone_rails`**; its companion npm package is **`dialtone-rails`**.
 
 ```erb
-<%= form.intl_tel_field :phone_number,
+<%= form.dialtone_field :phone_number,
       initial_country: "ba",
       class_names: {
         input: "input",
@@ -58,7 +58,7 @@ Use it with standard Rails forms and labels:
 ```erb
 <%= form_with model: @contact do |form| %>
   <%= form.label :phone_number %>
-  <%= form.intl_tel_field :phone_number,
+  <%= form.dialtone_field :phone_number,
         initial_country: "ba",
         required: true,
         autocomplete: "tel",
@@ -81,7 +81,7 @@ Use it with standard Rails forms and labels:
 For example:
 
 ```erb
-<%= form.intl_tel_field :phone_number,
+<%= form.dialtone_field :phone_number,
       initial_country: "ba",
       options: {
         only_countries: %w[ba hr rs me],

@@ -39,7 +39,7 @@
                 </div>
                 <pre><code><%= JSON.pretty_generate(field_options) %></code></pre>
               </section>
-              <%= form.intl_tel_field example[:name], **field_options %>
+              <%= form.dialtone_field example[:name], **field_options %>
               <% if params[:contact]&.key?(example[:name]) %>
                 <output id="<%= example[:name] == :phone_number ? 'submitted-number' : "submitted-#{example[:name]}" %>"
                         for="contact_<%= example[:name] %>" aria-label="Submitted value"><%= params.dig(:contact, example[:name]).presence || '—' %></output>

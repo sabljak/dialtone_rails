@@ -1,0 +1,35 @@
+{
+  "name": "dialtone-rails",
+  "version": "0.1.0",
+  "description": "Stimulus controller and styles for Dialtone Rails, powered by intl-tel-input",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/sabljak/dialtone_rails",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabljak/dialtone_rails.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sabljak/dialtone_rails/issues"
+  },
+  "exports": {
+    ".": "./javascript/controller.js",
+    "./styles": "./css/dialtone_rails.css"
+  },
+  "files": ["javascript", "css", "README.md", "LICENSE"],
+  "sideEffects": ["**/*.css"],
+  "scripts": {
+    "build:demo": "esbuild demo/application.js --bundle --outdir=demo/public/assets --loader:.webp=file --asset-names=[name]-[hash]"
+  },
+  "dependencies": {
+    "intl-tel-input": "29.5.0"
+  },
+  "peerDependencies": {
+    "@hotwired/stimulus": "^3.2.2"
+  },
+  "devDependencies": {
+    "@hotwired/stimulus": "3.2.2",
+    "@hotwired/turbo": "8.0.23",
+    "esbuild": "^0.25.0"
+  }
+}

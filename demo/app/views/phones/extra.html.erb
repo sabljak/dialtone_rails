@@ -1,0 +1,8 @@
+<turbo-frame id="extra">
+  <%= form_with scope: :batch, url: "/contacts", id: "extra-form" do |form| %>
+    <%= form.fields_for :contacts, nil, index: 0 do |contact| %>
+      <%= contact.label :phone_number, "Another phone number" %>
+      <%= contact.intl_tel_field :phone_number, initial_country: "gb", value: "+447400123456" %>
+    <% end %>
+  <% end %>
+</turbo-frame>

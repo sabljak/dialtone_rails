@@ -1,0 +1,7 @@
+/.bundle/
+/node_modules/
+/demo/public/assets/
+/demo/log/
+/demo/tmp/
+/*.gem
+/*.tgz

@@ -1,0 +1,8 @@
+@layer intl-tel-input;
+@import "intl-tel-input/styles" layer(intl-tel-input);
+
+@layer intl-tel-input {
+  .iti__tel-input {
+    font: inherit;
+  }
+}

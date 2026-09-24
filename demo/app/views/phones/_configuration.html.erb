@@ -1,0 +1,106 @@
+<section class="configuration" aria-labelledby="configuration-title">
+  <h2 id="configuration-title">Configuration</h2>
+  <p>Ruby names for intl-tel-input 29.5.0. Pass widget settings inside <code>options: { ... }</code>; defaults are shown below.</p>
+  <% {
+    "Rails helper" => [
+      ["initial_country", '""', 'Starting two-letter country code, e.g. "ba". Empty means no country selected; an existing international number takes precedence.'],
+      ["class_names", "{}", "CSS classes by slot, including the input. Added alongside upstream classes."],
+      ["options", "{}", "Upstream settings as a Ruby hash. Keys, including nested keys, are converted from snake_case to camelCase."],
+      ["value", "model value", "Initial phone number. International format is best for selecting the correct country."],
+      ["id, name", "Rails-generated", "Override the input ID or submitted name. Use distinct or indexed names; repeated names such as phones[] are unsupported."],
+      ["autocomplete", "unset", 'Use "tel" to enable phone-number autofill.'],
+      ["placeholder", "automatic example", "Custom placeholder text; respected when placeholder_number_policy is POLITE."],
+      ["required", "false", "Use browser validation to require a non-empty value; does not validate the phone number itself."],
+      ["disabled", "false", "Disable the input and omit it from submission."],
+      ["readonly", "false", "Prevent editing the text while still submitting it. Country selection is configured separately."],
+      ["data, aria, style, …", "unset", "Other standard Rails input attributes pass through. Put all CSS classes in class_names."]
+    ],
+    "Country selection · options:" => [
+      ["country_selector_mode", '"AUTO"', "AUTO chooses a dropdown or fullscreen picker for the viewport; DROPDOWN, FULLSCREEN, and OFF force a mode."],
+      ["country_search", "true", "Show a search field in the country picker."],
+      ["only_countries", "nil", 'Allow only these country codes, e.g. %w[ba hr rs me]. nil includes all countries.'],
+      ["exclude_countries", "nil", "Remove these country codes from the available list."],
+      ["country_order", "nil", "Place these country codes first; remaining countries follow alphabetically."],
+      ["show_flags", "true", "Display country flags. When false, the selected country uses a globe icon."],
+      ["separate_dial_code", "true", "Display the calling code beside the input rather than as editable text."],
+      ["match_dropdown_width", "true", "Match the dropdown to the input width; false sizes it to its country names."],
+      ["dropdown_always_open", "false", "Keep the country dropdown open. Applies to dropdown mode."]
+    ],
+    "Number formatting · options:" => [
+      ["number_display_format", '"INTERNATIONAL"', "INTERNATIONAL adds formatting and a calling code; NATIONAL uses local format; E164 uses + and digits. NATIONAL requires separate_dial_code: false."],
+      ["format_as_you_type", "true", "Automatically add number formatting as the user types."],
+      ["strict_mode", "true", "Reject irrelevant characters and cap length for allowed number types. This is not phone-number validation."],
+      ["strict_reject_animation", "true", "Animate rejected input, using a flash instead of a shake when reduced motion is preferred."],
+      ["allowed_number_types", '%w[MOBILE FIXED_LINE]', "Number types used by upstream validation and strict-mode length limits. nil permits all types; this wrapper does not run validation on submit."],
+      ["allow_number_extensions", "false", "Let upstream validation accept extensions. Typing them requires strict_mode: false; this wrapper's E.164 submission does not preserve extensions."],
+      ["allow_phonewords", "false", "Let upstream validation accept words such as FLOWERS. Typing letters requires strict_mode: false; submitted phonewords are converted to digits."],
+      ["placeholder_number_policy", '"POLITE"', "POLITE keeps a custom placeholder; AGGRESSIVE replaces it with an example; OFF disables automatic placeholders."],
+      ["placeholder_number_type", '"MOBILE"', "Example-number type. MOBILE, FIXED_LINE, and FIXED_LINE_OR_MOBILE have the broadest country coverage."]
+    ],
+    "Language · options:" => [
+      ["country_name_locale", '"en"', 'Locale for country names, e.g. "bs", "fr", or "de". Does not translate other UI text.'],
+      ["country_name_overrides", "{}", 'Override individual names by country code, e.g. { ba: "Bosna i Hercegovina" }.'],
+      ["ui_translations", "{}", "Override interface strings such as search_placeholder and search_empty_state. Unspecified strings remain in English; see the keys below."]
+    ],
+    "Upstream integration settings" => [
+      ["custom_placeholder", "JavaScript only", "Callback for generating placeholder text. Use the ordinary placeholder attribute for a fixed Ruby-configured value."],
+      ["initial_country_lookup", "JavaScript only", "Async callback to look up a country. This Ruby wrapper accepts an explicit initial_country instead."],
+      ["dropdown_parent", "DOM element only", "Mount a detached dropdown under another element. Cannot be passed through JSON-backed Ruby options."],
+      ["fullscreen_parent", "DOM element only", "Mount a fullscreen picker under another element, such as a dialog. Cannot be passed through Ruby options."],
+      ["hidden_inputs", "leave unset", "Upstream callback for duplicate hidden fields. The wrapper already submits the full number through FormData."],
+      ["load_utils", "already included", "Upstream callback for loading formatting utilities. This package bundles them automatically."],
+      ["container_class", "deprecated", "Use class_names: { container: ... } instead."],
+      ["search_input_class", "deprecated", "Use class_names: { search_input: ... } instead."]
+    ]
+  }.each do |heading, settings| %>
+    <h3><%= heading %></h3>
+    <dl class="configuration-list">
+      <% settings.each do |name, default, description| %>
+        <div>
+          <dt><code><%= name %></code><small><%= default %></small></dt>
+          <dd>
+            <%= description %>
+            <% if name == "class_names" %>
+              <details>
+                <summary>Styling slots</summary>
+                <dl class="configuration-list">
+                  <% {
+                    input: "Telephone input.", container: "Entire widget wrapper.",
+                    country_container: "Area holding the selected country.", selected_country: "Country button, or static country display when selection is off.",
+                    selected_country_primary: "Highlighted area inside the country button.", selected_flag: "Selected flag or globe.",
+                    arrow: "Country dropdown arrow.", selected_dial_code: "Separate calling code.",
+                    country_selector: "Dropdown or fullscreen picker.", country_selector_container: "Outer wrapper when the picker is mounted outside the widget.",
+                    close_button: "Fullscreen picker's close button.", search_wrapper: "Search field and icons.",
+                    search_icon: "Search icon.", search_input: "Country search input.", search_clear: "Clear-search button.",
+                    country_list: "Country list.", country_list_item: "Each country row.", country_list_item_flag: "Each country's flag.",
+                    country_name: "Country name in a row.", dial_code: "Calling code in a row.", country_check: "Selected-country checkmark.",
+                    no_results: "Empty search results message."
+                  }.each do |slot, explanation| %>
+                    <div><dt><code><%= slot %></code></dt><dd><%= explanation %></dd></div>
+                  <% end %>
+                </dl>
+              </details>
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  <% end %>
+
+  <details>
+    <summary>Translation keys · options: { ui_translations: { ... } }</summary>
+    <dl class="configuration-list">
+      <% {
+        search_placeholder: "Search input placeholder.", search_empty_state: "Message when no countries match.",
+        selected_country_aria_label: 'Accessible country-button label; keep ${countryName} and ${dialCode} placeholders.',
+        clear_search_aria_label: "Accessible clear-search label.", close_country_selector_aria_label: "Accessible close-picker label.",
+        country_list_aria_label: "Accessible country-list label.", no_country_selected: "Label when no country is selected.",
+        country_names: "Fallback country-name map keyed by country code; prefer country_name_overrides for custom names.",
+        search_summary_aria: "Search-result count announcement callback. Requires JavaScript; cannot be configured through Ruby."
+      }.each do |name, description| %>
+        <div><dt><code><%= name %></code></dt><dd><%= description %></dd></div>
+      <% end %>
+    </dl>
+  </details>
+  <p><a href="https://intl-tel-input.com/docs/options">Upstream option reference ↗</a></p>
+</section>

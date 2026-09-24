@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dialtone Rails · International phone inputs</title>
+    <link rel="icon" href="data:,">
+    <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="/assets/application.css" data-turbo-track="reload">
+    <script src="/assets/application.js" defer data-turbo-track="reload"></script>
+  </head>
+  <body>
+    <main>
+      <h1>International phone inputs<span aria-hidden="true">.</span></h1>
+      <%= form_with scope: :contact, url: "/contacts", id: "contact-form" do |form| %>
+        <div class="fields">
+          <% PhonesController::EXAMPLES.each do |example| %>
+            <% field_options = {
+              value: params.dig(:contact, example[:name]) || example[:value],
+              initial_country: example[:country], autocomplete: "tel",
+              options: example[:options],
+              class_names: {
+                input: "phone-input", container: "phone-field",
+                country_selector: "phone-dropdown", search_input: "phone-search"
+              }
+            } %>
+            <div class="field-card" id="example-<%= example[:name] %>">
+              <div class="field-heading">
+                <%= form.label example[:name], example[:label] %>
+                <button type="button" class="info-button" popovertarget="options-<%= example[:name] %>"
+                        aria-label="Options for <%= example[:label] %>"><span aria-hidden="true">ⓘ</span></button>
+              </div>
+              <section popover id="options-<%= example[:name] %>" class="options-popover"
+                       aria-labelledby="options-title-<%= example[:name] %>">
+                <div class="popover-heading">
+                  <h2 id="options-title-<%= example[:name] %>"><%= example[:label] %></h2>
+                  <button type="button" class="info-button" popovertarget="options-<%= example[:name] %>"
+                          popovertargetaction="hide" aria-label="Close options"><span aria-hidden="true">×</span></button>
+                </div>
+                <pre><code><%= JSON.pretty_generate(field_options) %></code></pre>
+              </section>
+              <%= form.intl_tel_field example[:name], **field_options %>
+              <% if params[:contact]&.key?(example[:name]) %>
+                <output id="<%= example[:name] == :phone_number ? 'submitted-number' : "submitted-#{example[:name]}" %>"
+                        for="contact_<%= example[:name] %>" aria-label="Submitted value"><%= params.dig(:contact, example[:name]).presence || '—' %></output>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <div class="actions">
+          <button type="reset" class="button button-secondary">Reset</button>
+          <%= form.submit "Submit", class: "button button-primary" %>
+        </div>
+      <% end %>
+      <%= render "configuration" %>
+    </main>
+  </body>
+</html>
